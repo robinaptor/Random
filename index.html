@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random</title>
+    <style>
+        body { font-family: sans-serif; }
+    </style>
+</head>
+<body>
+    <h1 id="Strategy">Hello</h1>
+    <script>
+        var strategy = document.getElementById("Strategy");
+        strategy.innerHTML = "WTF !!!"
+
+        const Strategies = [
+            "Chaton",
+            "Loutre",
+            "Canard"
+        ];
+
+        let liste = Strategies.length;
+        let rando = Math.random();
+        let hasar = rando * liste;
+        let choix = Math.floor(hasar);
+
+        strategy.innerHTML = Strategies[choix];
+
+        // if( Math.random() > 0.5 ){
+        //    strategy.innerHTML = "Obey."
+        //}
+    </script>
+</body>
+</html>

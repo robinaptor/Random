@@ -27,3 +27,11 @@ body {
     background-position: 0 1em; /* Position finale, déplace le fond vers le bas */
   }
 }
+
+#searchInput{
+   margin: 2rem;
+   width: 20rem;
+   font-size: 1.2rem;
+   padding: 0.5em;
+   opacity: 0.3;
+  }

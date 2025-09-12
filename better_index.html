@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Random — Choix aléatoire</title>
+    <meta name="description" content="Choisit un élément au hasard parmi une liste et permet de le copier dans le presse-papiers.">
+    <style>
+        :root{
+            --bg:#0f1724; --card:#0b1420; --accent:#7dd3fc; --muted:#94a3b8; --glass: rgba(255,255,255,0.04);
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg,#071024 0%, #071022 60%); color:#e6eef6; -webkit-font-smoothing:antialiased;
+            display:flex; align-items:center; justify-content:center; padding:2rem;
+        }
+        .card{
+            width:100%; max-width:720px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border-radius:12px; padding:2rem; box-shadow: 0 8px 30px rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.03);
+        }
+        header{display:flex;align-items:center;justify-content:space-between; gap:1rem}
+        h1{margin:0;font-size:1.6rem;letter-spacing:0.2px}
+        p.lead{margin:0;color:var(--muted)}
+        .display{
+            margin-top:1.2rem; background:var(--glass); padding:1.6rem; border-radius:10px; text-align:center;
+            font-size:2rem; font-weight:600; color:var(--accent); min-height:64px; display:flex;align-items:center;justify-content:center;
+            transition:transform .18s ease, opacity .18s ease;
+        }
+        .controls{margin-top:1rem; display:flex; gap:.75rem; align-items:center}
+        button{background:transparent;color:var(--accent); border:1px solid rgba(125,211,252,0.15); padding:.6rem .9rem; border-radius:8px; cursor:pointer}
+        button.primary{background:linear-gradient(90deg,var(--accent), #2dd4bf); color:#042028; font-weight:700}
+        button:focus{outline:3px solid rgba(125,211,252,0.14); outline-offset:2px}
+        .small{font-size:.9rem;color:var(--muted)}
+        footer{margin-top:1.2rem;color:var(--muted);font-size:.85rem;text-align:right}
+        @media (max-width:480px){ .display{font-size:1.4rem} header{flex-direction:column;align-items:flex-start} footer{text-align:left}}
+        /* simple fade animation for updates */
+        .flash{transform:translateY(-6px); opacity:0.98}
+    </style>
+</head>
+<body>
+    <main class="card" role="main">
+        <header>
+            <div>
+                <h1 id="strategy-label">Choix aléatoire</h1>
+                <p class="lead">Cliquez sur "Choisir" pour remplacer le texte par un élément aléatoire.</p>
+            </div>
+            <div class="small">3 éléments</div>
+        </header>
+
+        <div id="display" class="display" aria-live="polite">—</div>
+
+        <div class="controls">
+            <button id="pick" class="primary" aria-describedby="strategy-label">Choisir</button>
+            <button id="copy">Copier</button>
+            <div style="flex:1"></div>
+            <div class="small" id="seed-info">Généré aléatoirement</div>
+        </div>
+
+        <footer>
+            <span class="small">Tip: appuyez sur la touche espace pour choisir rapidement.</span>
+        </footer>
+    </main>
+
+    <noscript>
+        <p style="color:#ffb4b4;text-align:center;margin-top:1rem">JavaScript est requis pour l'interactivité. Rechargez avec JS activé.</p>
+    </noscript>
+
+    <script>
+        // Données: modifiez ou étendez cette liste
+        const Strategies = ["Chaton", "Loutre", "Canard"];
+        
+        const display = document.getElementById('display');
+        const pickBtn = document.getElementById('pick');
+        const copyBtn = document.getElementById('copy');
+
+        function pickRandom(){
+            if (!Strategies || Strategies.length === 0) return '—';
+            const i = Math.floor(Math.random() * Strategies.length);
+            return Strategies[i];
+        }
+
+        function show(value){
+            display.classList.remove('flash');
+            // trigger reflow for animation
+            void display.offsetWidth;
+            display.textContent = value;
+            display.classList.add('flash');
+            // update count badge
+            document.querySelector('.small').textContent = Strategies.length + ' éléments';
+        }
+
+        pickBtn.addEventListener('click', () => show(pickRandom()));
+
+        copyBtn.addEventListener('click', async () => {
+            const text = display.textContent || '';
+            try{
+                await navigator.clipboard.writeText(text);
+                copyBtn.textContent = 'Copié ✓';
+                setTimeout(()=> copyBtn.textContent = 'Copier', 1300);
+            }catch(e){
+                // fallback
+                const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta);
+                ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+                copyBtn.textContent = 'Copié ✓';
+                setTimeout(()=> copyBtn.textContent = 'Copier', 1300);
+            }
+        });
+
+        // keyboard shortcut: space to pick
+        window.addEventListener('keydown', (e)=>{
+            if (e.code === 'Space' && document.activeElement.tagName !== 'BUTTON'){
+                e.preventDefault(); show(pickRandom());
+            }
+        });
+
+        // show an initial pick on load
+        document.addEventListener('DOMContentLoaded', ()=>{
+            show(pickRandom());
+        });
+    </script>
+</body>
+</html>

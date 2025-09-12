@@ -1,0 +1,29 @@
+body {
+    font-family: monospace;
+    background-color: orange;
+    
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.rainbow-text {
+  font-size: 15vw; /* Taille du texte */
+  font-weight: bold; /* Police en gras */
+  background: linear-gradient(to bottom, red 0%, red 12.5%, orange 12.5%, orange 25%, yellow 25%, yellow 37.5%, green 37.5%, green 50%, blue 50%, blue 62.5%, indigo 62.5%, indigo 75%, violet 75%, violet 87.5%, white 87.5%) 0 0.3em/100% 1em repeat-y; /* Le dégradé arc-en-ciel */
+  -webkit-background-clip: text; /* Permet de ne pas colorer la boite mais le texte */
+  -webkit-text-fill-color: transparent; /* Rend le texte transparent pour afficher le fond */
+  display: inline-block; /* Assure que le texte prend la largeur du contenu */
+  animation: scroll 2s infinite linear; /* Applique l'animation */
+}
+
+@keyframes scroll {
+  0% {
+    background-position: 0 0; /* Position initiale du fond */
+  }
+  100% {
+    background-position: 0 1em; /* Position finale, déplace le fond vers le bas */
+  }
+}

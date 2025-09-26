@@ -1,26 +1,15 @@
 body {
-    font-family: monospace;
-    background-color: orange;
-    
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  background: #c0c0c0; /* fond gris typique */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
-.rainbow-text {
-  font-size: 15vw; /* Taille du texte */
-  font-weight: bold; /* Police en gras */
-  color: black;
-}
-
-#searchInput{
-  margin: 2rem;
-  width: 20rem;
+#Strategy {
   font-size: 1.2rem;
-  padding: 0.5em;
-  opacity: 0.3;
-  border-radius: 30px;
-  background-color: antiquewhite;
-  }
+  font-style: italic;
+  margin-bottom: 1rem;
+  text-align: center;
+}
